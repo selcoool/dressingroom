@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>CyberLearn Dressing Room</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+
+    <link rel="stylesheet" href="./../assets/css/style.css" />
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="card">
+            <div class="text-center">
+              <img src="./../assets/images/cybersoft.png" alt="Card image" />
+            </div>
+
+            <div class="card-body">
+              <h4 class="card-title text-center">
+                CyberLearn - Học lập trình trực tuyến - Dự án thử đồ trực tuyến
+                - Virtual Dressing Room
+              </h4>
+            </div>
+          </div>
+          <hr />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-8">
+          <ul class="nav nav-pills">
+              
+            <!-- <li class="nav-item">
+              <a class="nav-link active" id="tab-top">Áo</a>
+          </li> -->
+        
+
+          </ul>
+
+          <div class="well">
+            <!-- Tab panes -->
+            <div class="tab-content" >
+
+              <div class="row product__content">
+            
+          
+              
+               
+          
+              </div>
+         
+             
+            
+        
+           
+
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="contain">
+            <div class="body"></div>
+            <div class="model"></div>
+            <div class="hairstyle"></div>
+            <div class="necklace"></div>
+            <div class="bikinitop"></div>
+        
+            <div class="bikinibottom"></div>
+            <div class="pant"></div>
+
+            <div class="handbag"></div>
+            <div class="feet"></div>
+            <div class="background"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+
+
+     <!-- Include your scripts in the correct order -->
+     <script src="../utils/callData.js"></script>
+
+     <script>
+
+let tab = document.querySelector('ul[class="nav nav-pills"]');
+fetchData().then(data => {
+  let navPills = data.navPills;
+  let tabPanes = data.tabPanes;
+  let htmlTab = navPills.map((tenTab, index) => {
+    return `<li class="nav-item">
+              <a class="${index === 0 ? 'nav-link active' : 'nav-link'}" id="${tenTab.type}" onClick="findType('${tenTab.type}')">${tenTab.showName}</a>
+            </li>`;
+  });
+  tab.innerHTML = htmlTab;
+
+  // console.log('data',data)
+
+})
+  .catch(error => {
+    // Xử lý lỗi nếu có
+    console.error('Error fetching data:', error);
+});
+
+
+const findType = (type) => {
+  // console.log('dd', type);
+
+  let tab = document.querySelector('ul[class="nav nav-pills"]');
+  let product__content = document.querySelector('.row.product__content');
+   fetchData().then(data => {
+  let navPills = data.navPills;
+  let tabPanes = data.tabPanes;
+
+
+  let htmlTab = navPills.map((tenTab, index) => {
+    return `<li class="nav-item">
+              <a class="${tenTab.type === type ? 'nav-link active' : 'nav-link'}" id="${tenTab.type}" onClick="findType('${tenTab.type}')">${tenTab.showName}</a>
+            </li>`;
+  });
+  tab.innerHTML = htmlTab;
+
+  let filteredTabPanes = tabPanes.filter(product => product.type === type);
+
+
+  let htmlContent = filteredTabPanes.map((product, index) => {
+    return `<div class="col-sm-3">
+                  <div class="card">
+                    <img src="${product.imgSrc_jpg}" class="card-img-top" alt="Product 1">
+                    <div class="card-body">
+                      <h5 class="card-title text-center">${product.name}</h5>
+                    </div>
+                    <a href="#" class="btn btn-thu" onClick="tryOn('${product.type
+}','${product.imgSrc_png
+}')">Thử đồ</a>
+                  </div>
+            </div>`;
+  });
+
+  product__content.innerHTML = htmlContent;
+
+
+// In ra mảng các đối tượng đã lọc
+// console.log('Filtered tabPanes:', filteredTabPanes);
+
+  // console.log('555555',htmlTabPanes);
+
+
+})
+  .catch(error => {
+    // Xử lý lỗi nếu có
+    console.error('Error fetching data:', error);
+});
+
+}
+
+findType('topclothes')
+
+
+const tryOn=(type,item)=>{
+
+  let body = document.querySelector('.body');
+  let model = document.querySelector('.model');
+  let hairstyle = document.querySelector('.hairstyle');
+  let necklace = document.querySelector('.necklace');
+  let bikinitop = document.querySelector('.bikinitop');
+  let bikinibottom = document.querySelector('.bikinibottom');
+  let pant = document.querySelector('.pant');
+  
+  let handbag = document.querySelector('.handbag');
+  let feet = document.querySelector('.feet');
+  let background = document.querySelector('.background');
+  
+  
+  if(type=='shoes'){
+    feet.style.backgroundImage = `url('${item}')`;
+ 
+  }
+
+  if(type=='background'){
+    background.style.backgroundImage = `url('${item}')`;
+ 
+  }
+
+  // if(type=='topclothes'){
+  //   pant.style.backgroundImage = `url('${item}')`;
+ 
+  // }
+
+
+  if(type=='topclothes'){
+    pant.style.backgroundImage = `url('${item}')`;
+ 
+  }
+
+
+
+
+  if(type=='hairstyle'){
+    hairstyle.style.backgroundImage = `url('${item}')`;
+    
+ 
+  }
+
+  if(type=='handbags'){
+    handbag.style.backgroundImage = `url('${item}')`;
+ 
+  }
+
+
+  if(type=='necklaces'){
+    necklace.style.backgroundImage = `url('${item}')`;
+ 
+  }
+
+
+  
+
+  console.log('type',type);
+  console.log('item',item);
+
+}
+
+
+   
+
+
+
+       
+     </script>
+
+
+
+    <script>
+
+
+
+
+// let tab=document.querySelector('ul[class="nav nav-pills"]');
+// // console.log('tab',tab)
+
+// const jsonFilePath = '../data/Data.json';
+       
+
+
+
+// // Sử dụng Fetch API để tải dữ liệu từ tệp JSON
+// fetch(jsonFilePath)
+//     .then(response => {
+//         // Kiểm tra xem có lỗi không
+//         if (!response.ok) {
+//             throw new Error(`Network response was not ok: ${response.statusText}`);
+//         }
+//         // Trả về promise chứa dữ liệu JSON
+//         return response.json();
+//     })
+//     .then(data => {
+//         // Dữ liệu đã được phân tích
+//         let navPills=data.navPills;
+//         let tabPanes=data.tabPanes;
+    
+
+//         let htmlTab = navPills.map((tenTab, index) => {
+//     return `<li class="nav-item">
+//                 <a class="${index === 0 ? 'nav-link active' : 'nav-link'}" id="${tenTab.tabName}">${tenTab.showName}</a>
+//             </li>`;
+// });
+
+
+//         // console.log('data',htmlTab);
+//         tab.innerHTML=htmlTab;
+//         // console.log('data.avPills',navPills);
+//         // console.log('data.tabPanes',tabPanes);
+
+        
+//     })
+//     .catch(error => {
+//         // Xử lý lỗi nếu có
+//         console.error('Error fetching data:', error);
+//     });
+    </script>
+
+    <!-- <script src="./../models/ListChosen.js"></script>
+    <script src="./../models/ChoseItem.js"></script>
+    <script src="./../utils/callData.js"></script>
+    <script src="./../controllers/main.js"></script> -->
+  </body>
+</html>
